@@ -2,17 +2,19 @@ version: '3.8'
 
 services:
   app:
-    # حاوية Apache + PHP
     image: mcr.microsoft.com/vscode/devcontainers/php:8.1-ubuntu
+    # بدل هذا:
+    # volumes:
+    #   - ..:/workspace:cached
+    # استخدم هذا:
     volumes:
-      - ..:/workspace:cached   # يربط جذر المستودع بحاوية العمل
-    working_dir: /workspace    # مجلّد العمل داخل الحاوية
+      - ../src:/var/www/html:cached
+    working_dir: /var/www/html
     ports:
-      - "80:80"                # يعيد توجيه المنفذ 80 من الحاوية إلى Codespace
+      - "80:80"
     depends_on:
-      - db                     # يضمن تشغيل قاعدة البيانات أولًا
+      - db
 
-  db:
     # حاوية MySQL
     image: mysql:8.0
     environment:
